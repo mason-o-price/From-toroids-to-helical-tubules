@@ -77,13 +77,13 @@ def main(json_directory: str, data_log_directory: str, output_directory: str):
 
 if __name__ == "__main__":
     # Specify where you saved all of the original json input files to run the simulations in the first place
-    json_directory = r'C:\Users\mason\OneDrive\Desktop\code\openMesh\json files\new_jsons\jsons_toroid_mu4_5'
+    json_directory = r''
 
     # Specify the location of the data_log.dat files that result from the simulations
-    data_log_directory = r'C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250408\new_tests\data_toroid_mu4_5_summary'
+    data_log_directory = r''
 
     # Specify the name of the output folder
-    output_directory = "new_jsons/quench_jsons_toroid_mu4_5"
+    output_directory = ""
 
     # Test whether the output folder exists
     if not os.path.isdir(output_directory):

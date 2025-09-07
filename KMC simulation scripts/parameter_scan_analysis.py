@@ -281,8 +281,8 @@ def main(data_location: str, quench_location: str, num_runs: int):
 
 if __name__ == "__main__":
     # Define the locations of the data that we need 
-    data_location = r'C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250408\new_tests\data_toroid_mu4_5_summary' # Location of the original simulation data files
-    quench_location = r'C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250408\new_tests\quench_data_toroid_mu4_5_summary' # Location of the quenching data files
+    data_location = r'' # Location of the original simulation data files
+    quench_location = r'' # Location of the quenching data files
     num_runs = 50 # Specify the total number of simulations ran per data point
 
     # Types of assembly:

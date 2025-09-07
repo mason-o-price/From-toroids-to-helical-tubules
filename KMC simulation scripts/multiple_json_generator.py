@@ -93,15 +93,15 @@ def main(interactions_file: str, angles_file: str, output_folder: str, simulatio
 
 if __name__ == "__main__":
     # Define the file locations for the interaction matrix and the binding angle matrix
-    interactions_file = "interactionMatrices/(4,2,2,1)_interactionMatrix.csv"
-    angles_file = "bindingAngles/(4,2,2,1)_bindingAngles.csv"
+    interactions_file = ""
+    angles_file = ""
 
     # Define the data folder where the simulations will output the results
-    output_folder = "/home/masonprice/toroids_new_tests/data_toroid_mu4_5/"
-    simulation_name = "4221"
+    output_folder = ""
+    simulation_name = ""
 
     # Define the folder where the jsons will be dumped
-    json_folder = "new_jsons/jsons_toroid_mu4_5/"
+    json_folder = ""
 
     # Define the array of binding energy and bending modulus values
     eb_scan = [-5, -6, -7, -8, -9, -10, -11]

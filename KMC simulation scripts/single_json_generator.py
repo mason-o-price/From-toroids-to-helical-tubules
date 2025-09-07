@@ -101,10 +101,10 @@ def main(intMatrixFile: str, angleMatrixFile: str, outputDataFolder: str, jsonFi
 
 if __name__ == "__main__":
     # Set the file/folder names
-    intMatrixFile = "interactionMatrices/trefoil_interactionMatrix.csv" # interaction matrix
-    angleMatrixFile = "bindingAngles/trefoil_angleMatrix.csv" # binding angles matrix
-    outputDataFolder = "/home/mason/openmesh_output/data_trefoil_kb100_eb-8/" # folder to dump data from the output of the simulation
-    jsonFileName = "input_trefoil_kb100_eb-8.json" # name of the json file
+    intMatrixFile = "" # interaction matrix
+    angleMatrixFile = "" # binding angles matrix
+    outputDataFolder = "" # folder to dump data from the output of the simulation
+    jsonFileName = "" # name of the json file
 
     # set the chemical potential, binding energy and bending modulus
     mu = -4.5
