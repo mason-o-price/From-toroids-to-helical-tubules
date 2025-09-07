@@ -30,24 +30,20 @@
 % measureOneAngle
 
 %% ======================== Input Parameters ==============================
-% clear all;
 
-% Tubule parameters
-T = 4;  % Lattice number (m,n) of the tube (m >= abs(n))
-
-% Toroid parameters
-numTubules = 4; % Number of tubule/junction sections around the toroid
-tubuleHeight = 2; % Height of each tubule
-junctionSideLength = 2; % Gives an LxL junction. This must be less than or equal to m/2
-x = 1; % Relative position of the holes (between 0 and m-1). For a toroid, choose x = c-d-L/2
-c = 1; % Offset for the hole locations (between 0 and m-1). This shouldn't change the initial structure (except for when the boundaries are merged). 
-% NOTE: don't change c.
+% Geometry parameters
+T = 4;  % Tubelet circumference
+L = 2;  % Tubelet length
+D = 2;  % Junction side-length (diamond, must be less than or equal to m/2)
+R = 1;  % Hole spacing (raster parameter, must be between 0 & T-1)
+N = 4; % Number of tubelet segments around the toroid
+% Note: for a toroid, choose R = T-D-L/2
 
 % Physical parameters
 dt = 1e-1; % Time step per iteration
-kConstTubule = 3; % Spring constant for the tubule section, this one should be high.
-kConstJunction = 3; % Spring constant for the junction
-kConstPseudoBond = 5e-1; % Spring constant for the pseudobonds, this one should be the weakest.
+kConstTubule = 2; % Spring constant for the tubule section, this one should be high.
+kConstJunction = 2; % Spring constant for the junction
+kConstPseudoBond = 1; % Spring constant for the pseudobonds, this one should be the weakest.
 kConstJunction_pushout = 6e-2; % Spring constant for the force pushing out the junctions to keep them from buckling inward.
 inflationStrength = 0;
 kAngle = 0; % Bias strength of the angles
@@ -62,9 +58,9 @@ kAngle = 0; % Bias strength of the angles
 
 % Simulation parameters
 % (May need to tune for the simulation to work well)
-iterationThreshold = 1.4e3; % Threshold for iteration
-sampleFrequencyStage1 = 4; % Number of iterations between samples
-sampleFrequencyStage2 = 12; % Number of iterations between samples
+iterationThreshold = 2e3; % Threshold for iteration
+sampleFrequencyStage1 = 1e2; % Number of iterations between samples
+sampleFrequencyStage2 = 1e2; % Number of iterations between samples
 start_stage2 = 1e3; % Iteration when we close the holes
 stop_forcing_tubelets = inf; % Iteration when we stop maintaining the tubes
 stop_pushing_junctions = 1.2e3; % Iteration when we stop pushing out the junctions to keep them from buckling
@@ -101,6 +97,15 @@ plot_angle_strain = 1; % 1 if you want to color the edges based on off-target an
 shouldCalculateStrain = 1; % 1 if you want to calculate strain; 0 if not.
 
 %% ============================ Preparation ===============================
+% Re-name variables
+m = T;
+numTubules = N; 
+tubuleHeight = L; 
+junctionSideLength = D; % Gives an LxL junction. 
+x = R; 
+c = 1; % Offset for the hole locations (between 0 and m-1). This shouldn't change the initial structure (except for when the boundaries are merged). 
+% NOTE: don't change c.
+
 % Find the total height of the tubule, (toroid's circumference)
 totalHeight = numTubules*(tubuleHeight + junctionSideLength) + 1;
 
@@ -158,10 +163,10 @@ end
 shg %Display the figure
 
 % Remove the holes
-vertexConnectivity = removeHoles(m, x, c, numTubules, tubuleHeight, junctionSideLength, vertexConnectivity, coordinates, trianglesMatrix);
+vertexConnectivity = removeHoles(m, x, c, numTubules, tubuleHeight, junctionSideLength, vertexConnectivity);
 
 % Update the triangles matrix after we remove the holes.
-trianglesMatrix = findUniqueTriangles(vertexConnectivity, coordinates, numTriangles, junctionSideLength, tubuleHeight, numTubules, m, x);
+trianglesMatrix = findUniqueTriangles(vertexConnectivity, coordinates, numTriangles, m);
 
 % Re-arrange the triangles in the triangles matrix
 trianglesMatrix = reorderTriangles(trianglesMatrix,m,tubuleHeight,junctionSideLength,x,numTubules);
