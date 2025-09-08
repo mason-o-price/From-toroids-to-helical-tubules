@@ -8,5 +8,7 @@
 
 unset init_file_path
 
+json_file = ""
+
 cd $openmesh_src;
-$openmesh_bin/Assembly -q -i /home/masonprice/quench_input_422_eb-9_kb1000.0_ensemble37313707.json
+$openmesh_bin/Assembly -q -i $json_file

@@ -6,7 +6,7 @@
 #SBATCH --job-name=mason_gcmc
 #SBATCH --error=err.out
 
-json_file = "/home/masonprice/input_422_eb-9_kb1000.0_ensemble37313707.json"
+json_file = ""
 
 echo "$json_file"
 cd $openmesh_src;

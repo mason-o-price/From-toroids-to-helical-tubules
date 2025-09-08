@@ -8,7 +8,7 @@
 #SBATCH --job-name=gcmcToroid
 
 # declare the location of the input files
-json_directory="/home/masonprice/toroids_new_tests/quench_jsons_toroid_mu4_5"
+json_directory=""
 
 # Find the index of the file in the directory based on the array index for this job
 file_indx=$SLURM_ARRAY_TASK_ID
