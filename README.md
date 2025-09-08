@@ -4,4 +4,4 @@ Authors: Mason Price, Daichi Hayakawa, Thomas E. Videbæk, Rupam Saha, Botond Ty
 
 This respository includes:
 - MATLAB code used to generate triangulated geometries for curved tubules in `generating geometries`.
-- Python scripts to generate input json files for KMC simulations, and Python/Bash scripts to organize and read the simulation results, under [`KMC Simulation Scripts`]('KMC Simulation Scripts'\)
+- Python scripts to generate input json files for KMC simulations, and Python/Bash scripts to organize and read the simulation results, under [KMC Simulation Scripts](KMC Simulation Scripts/)
