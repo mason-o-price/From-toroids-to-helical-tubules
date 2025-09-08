@@ -7,6 +7,7 @@
 % rot2d, available here: https://github.com/iswunistuttgart/matlab-tooling/blob/master/math/rot2d.m
 % makeTubule
 % removeHoles
+% removeVertexFunction
 % findBonds
 % mergeHoles
 % relaxEdges
@@ -58,12 +59,12 @@ kAngle = 0; % Bias strength of the angles
 
 % Simulation parameters
 % (May need to tune for the simulation to work well)
-iterationThreshold = 2e3; % Threshold for iteration
-sampleFrequencyStage1 = 1e2; % Number of iterations between samples
-sampleFrequencyStage2 = 1e2; % Number of iterations between samples
-start_stage2 = 1e3; % Iteration when we close the holes
-stop_forcing_tubelets = inf; % Iteration when we stop maintaining the tubes
-stop_pushing_junctions = 1.2e3; % Iteration when we stop pushing out the junctions to keep them from buckling
+iterationThreshold = 1e4; % Threshold for iteration
+sampleFrequencyStage1 = 5e2; % Number of iterations between samples
+sampleFrequencyStage2 = 1e3; % Number of iterations between samples
+start_stage2 = 2e3; % Iteration when we close the holes
+stop_forcing_tubelets = 5e3; % Iteration when we stop maintaining the tubes
+stop_pushing_junctions = 5.1e3; % Iteration when we stop pushing out the junctions to keep them from buckling
 start_biasing_angles = NaN; % Iteration when we start biasing the angles
 stop_biasing_angles = NaN; % Iteration when we stop biasing the angles
 angle_check_frequency = 10; % How often should we calculate the preferred angles
@@ -73,16 +74,16 @@ pushout_junctions = 1; % Forcefully push out the junctions
 maintain_tubes = 1; % Forcefully maintain a consistent diameter for the tubules
 map_to_torus = 0; % 1 if toroid; 0 if helical tube. (Maps vertices onto the surface of a perfect torus).
 twist_offset = 0; % Offset for the amount of twisting on the toroid
-close_ends = 0; % 1 if toroid; 0 if helical tube.
+close_ends = 1; % 1 if toroid; 0 if helical tube.
 % (Change when needed)
 save_stretchingFigures = 0; % 1 if you want to save the figure of the colored edges based on stretching (png, svg, fig)
 save_stretchingData = 0; % 1 if you want to save the stretching vector (mat, csv)
 save_figures = 0; % 1 if you want to save the figures (png, svg, fig)
 save_angles = 0; % 1 if you want to save the angles (mat, csv)
-save_data = 1; % 1 if you want to save the coordinates, vertexConnections (mat, csv)
+save_data = 0; % 1 if you want to save the coordinates, vertexConnections (mat, csv)
 delete_empty_vertices = 0; % 1 if you need to use coordinates matrix; 0 if you only need the plots.
-shouldAnimate = 1; % First animation; 1 = make a video; 0 = don't make a video
-shouldAnimate_rotation = 1; % Second animation; 1 = make a video; 0 = don't make a video (for a rotating figure)
+shouldAnimate = 0; % First animation; 1 = make a video; 0 = don't make a video
+shouldAnimate_rotation = 0; % Second animation; 1 = make a video; 0 = don't make a video (for a rotating figure)
 plot_energy = 0; % Make a plot of the elastic energy of the configuration as it evolves
 % (Usually no need to change)
 should_plot_markers = 1; % plot the line-segments indicating triangle orientation
@@ -714,6 +715,8 @@ end
 if plot_stretching
     clf(figure(5));
     makeFigure(5);
+    hold on;
+    title(gca, 'Edge-length stretching')
     view(view_angle);
     stretching_vector = [];
     edges = []; %format: x1 x2,y1 y2,z1 z2 stretching
@@ -782,7 +785,7 @@ if plot_stretching
     tickCount = min_stretch : (max_stretch-min_stretch)/10 : max_stretch;
     c.TickLabels = num2cell(tickCount);
     colormap(cMap)
-    title('edge length stretching')
+    
     
     clf(figure(6))
     figure(6)
@@ -921,7 +924,7 @@ if plot_angle_strain
     tickCount = minAngleDiff : (maxAngleDiff-minAngleDiff)/10 : maxAngleDiff;
     c.TickLabels = num2cell(tickCount);
     colormap(cMapAngles)
-    title('average angle - measured angle')
+    title(gca, 'average angle - measured angle')
 end
 
 %% Plot with the edges colored corresponding to the angles
@@ -938,7 +941,7 @@ if plot_angle_strain
     % Define the maximum off-target angle. NOTE: we take the minimum to be
     % the negative version so that the middle of the colorbar = 0 (i.e. so
     % that the values are symmetric). 
-    maxAngle = 110;
+    maxAngle =  max(abs(cell2mat(bindingAngles_cell(:))));
     minAngle = -maxAngle; 
 
     for i = 1:size(trianglesMatrix, 1)
@@ -1057,37 +1060,37 @@ end
 %% save figures
 if save_figures
     % save the final 3d structure as .fig, .svg, .png
-    saveas(figure(4), "DunlapToroids\3Dfigures\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_finalStructure3D.fig")
-    saveas(figure(4), "DunlapToroids\3Dfigures\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_finalStructure3D.svg")
-    saveas(figure(4), "DunlapToroids\3Dfigures\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_finalStructure3D.png")
+    saveas(figure(4), "3Dfigures\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_finalStructure3D.fig")
+    saveas(figure(4), "3Dfigures\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_finalStructure3D.svg")
+    saveas(figure(4), "3Dfigures\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_finalStructure3D.png")
 end
 %% Save data
 if save_data
     % save the coordinates matrix as .mat
-    save("DunlapToroids\coordinates\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_coordinates.mat", "coordinates")
+    save("coordinates\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_coordinates.mat", "coordinates")
     writematrix(coordinates(:,3:5),"DunlapToroids\coordinates\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_coordinates.csv") 
     
     % save the vertexConnectivity matrix as .mat
-    save("DunlapToroids\vertexConnections\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_vertexConnections.mat", "vertexConnectivity")
-    writecell(vertexConnectivity,"DunlapToroids\vertexConnections\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_vertexConnections.csv") 
+    save("vertexConnections\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_vertexConnections.mat", "vertexConnectivity")
+    writecell(vertexConnectivity,"vertexConnections\("+m+","+tubuleHeight+","+junctionSideLength+","+x+")_vertexConnections.csv") 
 end
 %% save the stretching figures & files
 if save_stretchingFigures
     % save the stretch-based colored egdges as .fig, .svg, .png
-    saveas(figure(5), "stretchingAnalysis\figures3D\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_coloredEdges.fig")
-    saveas(figure(5), "stretchingAnalysis\figures3D\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_coloredEdges.svg")
-    saveas(figure(5), "stretchingAnalysis\figures3D\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_coloredEdges.png")
+    saveas(figure(5), "figures3D\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_coloredEdges.fig")
+    saveas(figure(5), "figures3D\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_coloredEdges.svg")
+    saveas(figure(5), "figures3D\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_coloredEdges.png")
     
     % save the histogram figure as .fig, .svg, .png
-    saveas(figure(6), "stretchingAnalysis\histograms\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingDistribution.fig")
-    saveas(figure(6), "stretchingAnalysis\histograms\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingDistribution.svg")
-    saveas(figure(6), "stretchingAnalysis\histograms\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingDistribution.png")
+    saveas(figure(6), "histograms\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingDistribution.fig")
+    saveas(figure(6), "histograms\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingDistribution.svg")
+    saveas(figure(6), "histograms\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingDistribution.png")
     
 end
 if save_stretchingData
     % save the stretching vector as a .mat and .csv
-    save("stretchingAnalysis\stretchingVectors\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingVector.mat", "stretching_vector")
-    csvwrite("stretchingAnalysis\stretchingVectors\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingVector.csv",stretching_vector)
+    save("stretchingVectors\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingVector.mat", "stretching_vector")
+    csvwrite("stretchingVectors\("+m+","+tubuleHeight+","+junctionSideLength+")_closed_stretchingVector.csv",stretching_vector)
 end
 %% Define a function to plot the neighborhood of an example point, (useful for trouble-shooting)
 function [] = plotNeighborhood(i,h,m, coordinates, vertexConnectivity)
