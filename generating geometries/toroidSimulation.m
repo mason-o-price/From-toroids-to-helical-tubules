@@ -749,7 +749,9 @@ if plot_stretching
     % max_stretch = 0.0183;
     % min_stretch = -max_stretch; % -0.0223393;
     numColors = 200;
-    cMap = colorcet('D04', N=numColors+1);
+    cMap = interp1(linspace(0, 1, 3), [31,123,238; ...
+                                        33,33,33;...
+                                        228,79,64]/255, linspace(0,1,numColors+1));
     
     for i = 1:size(edges,1)
         stretch = stretching_vector(i);
@@ -801,7 +803,9 @@ if plot_angle_strain
 
     % prepare a colormatrix
     numColors = 200;
-    cMapAngles = colorcet('D02', N=numColors+1);
+    cMapAngles = interp1(linspace(0, 1, 3), [73,157,37;...
+                                            235, 235, 235;...
+                                            186,97,228]/255, linspace(0,1,numColors+1));
 
     maxAngleDiffMatrix = [];
     minAngleDiffMatrix = [];
@@ -935,7 +939,6 @@ if plot_angle_strain
 
     % prepare a colormatrix
     numColors = 200;
-    % cMapAngles = colorcet('D02', N=numColors+1);
     cMapAngles = videcolors(numColors+1);
 
     % Define the maximum off-target angle. NOTE: we take the minimum to be
