@@ -4,4 +4,4 @@ Authors: Mason Price, Daichi Hayakawa, Thomas E. Videbæk, Rupam Saha, Botond Ty
 
 This respository includes:
 - MATLAB code used to generate triangulated geometries for curved tubules in [`generating geometries`](https://github.com/mason-o-price/From-toroids-to-helical-tubules/tree/main/generating%20geometries). The primary script is [`toroidSimulation`](https://github.com/mason-o-price/From-toroids-to-helical-tubules/blob/main/generating%20geometries/toroidSimulation.m)
-- Python scripts to generate input json files for KMC simulations, and Python/Bash scripts to organize and read the simulation results, under [`KMC Simulation Scripts`](https://github.com/mason-o-price/From-toroids-to-helical-tubules/tree/main/KMC%20simulation%20scripts)
+- Python scripts to generate input json files for KMC simulations, and Python/Bash scripts to analyze the simulation results, under [`KMC Simulation Scripts`](https://github.com/mason-o-price/From-toroids-to-helical-tubules/tree/main/KMC%20simulation%20scripts)
