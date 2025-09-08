@@ -34,7 +34,7 @@
 % Geometry parameters
 T = 4;  % Tubelet circumference
 L = 2;  % Tubelet length
-D = 2;  % Junction side-length (diamond, must be less than or equal to m/2)
+D = 2;  % Junction side-length (diamond, must be less than or equal to T/2)
 R = 1;  % Hole spacing (raster parameter, must be between 0 & T-1)
 N = 4; % Number of tubelet segments around the toroid
 % Note: for a toroid, choose R = T-D-L/2
@@ -1105,4 +1105,5 @@ for j = 1:size(neighbors(:,1))
 end
 
 end
+
 
