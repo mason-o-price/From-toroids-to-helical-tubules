@@ -457,10 +457,10 @@ if __name__ == "__main__":
     surface_type = 'H' # 'T' = toroid, 'H' = helical tubule, 'S' = snake
 
     # Input parameters (T,L,D,R) with the corresponding axis symmetry N and best guess for pitch p.
-    c = 3
+    T = 3
     L = 1
     N = 4
     p = -1 # Positive for right-handed, negative for left-handed
 
     # Call the main function
-    main(file_name, surface_type, c, L, N, p)
+    main(file_name, surface_type, T, L, N, p)
