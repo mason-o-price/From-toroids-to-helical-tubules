@@ -1,12 +1,10 @@
 import os
 import numpy as np
-import argparse
+import sys
+from pathlib import Path
 
-def main():
+def convertFaces2CSV(inputDirectory, outputDirectory):
     indxEnd = 1
-
-    inputDirectory = r"C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250924_toroid\highResSamples\on_target_R_exc0_15"
-    outputDirectory = r"C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250924_toroid\highResSamples\on_target_R_exc0_15_faces"
     dirList = os.listdir(inputDirectory)
     for folderName in dirList:
         print(f"Processing {folderName}")
@@ -39,6 +37,15 @@ def main():
                 # print(faces)
                 newFileName = fileName.replace(".dat", "_faces.CSV")
                 np.savetxt(os.path.join(newFolderPath, newFileName), faces, delimiter=",")
+
+def main():
+    # Usage: python convertVtk2CSV.py "path/to/input_directory" "path/to/output_directory"
+    userArgs = sys.argv
+    inputDirectory = Path(userArgs[1])
+    outputDirectory = Path(userArgs[2])
+
+    convertFaces2CSV(inputDirectory,outputDirectory)
+    
 
 if __name__ == '__main__':
     main()

@@ -8,7 +8,7 @@ import csv
 from matplotlib.colors import LogNorm
 import warnings
 
-def main(data_location: str, quench_location: str, num_runs: int):
+def analyzeData(data_location: str, quench_location: str, num_runs: int):
     # Define the array of binding energy and bending modulus values that we are scanning over
     eb_scan = [f'eb-{x}' for x in [5,6,7,8,9,10,11]] # Binding energy
     kb_scan = ['kb0_001', 'kb0_01', 'kb0_1', 'kb1_0', 'kb10_0', 'kb100_0', 'kb1000_0'] # Bending modulus
@@ -279,7 +279,7 @@ def main(data_location: str, quench_location: str, num_runs: int):
     # Show the figure
     plt.show()
 
-if __name__ == "__main__":
+def main():
     # Define the locations of the data that we need 
     data_location = r'' # Location of the original simulation data files
     quench_location = r'' # Location of the quenching data files
@@ -291,5 +291,7 @@ if __name__ == "__main__":
     # 3: over-grown
     # 4: off-target closed
 
-    # Call the main function
-    main(data_location, quench_location, num_runs)
+    analyzeData(data_location, quench_location, num_runs)
+
+if __name__ == "__main__":
+    main()

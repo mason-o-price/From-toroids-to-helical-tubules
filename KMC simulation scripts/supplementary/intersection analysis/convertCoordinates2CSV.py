@@ -1,13 +1,12 @@
 import os
 import numpy as np
-import argparse
+import sys
+from pathlib import Path
 
-def main():
+def convertCoordinates2CSV(inputDirectory, outputDirectory):
     coordinatesStartLine = 14
     indxEnd = 2
 
-    inputDirectory = r"C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250924_toroid\highResSamples\on_target_R_exc0_15"
-    outputDirectory = r"C:\Users\mason\OneDrive\Desktop\code\openMesh\test_20250924_toroid\highResSamples\on_target_R_exc0_15_coordinates"
     dirList = os.listdir(inputDirectory)
     for folderName in dirList:
         print(f"Processing {folderName}")
@@ -30,6 +29,13 @@ def main():
                 newFileName = fileName.replace(".dat", "_coordinates.CSV")
                 np.savetxt(os.path.join(newFolderPath, newFileName), coordinates, delimiter=",")
 
+def main():
+    # Usage: python convertVtk2CSV.py "path/to/input_directory" "path/to/output_directory"
+    userArgs = sys.argv
+    inputDirectory = Path(userArgs[1])
+    outputDirectory = Path(userArgs[2])
+
+    convertCoordinates2CSV(inputDirectory,outputDirectory)
 
 if __name__ == '__main__':
     main()
