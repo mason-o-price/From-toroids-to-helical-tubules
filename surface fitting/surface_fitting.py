@@ -255,7 +255,7 @@ def meanXYZ(coordinates: list) -> float:
     XYZavg /= num_vertices
     return XYZavg
 
-def main(file_name: str, surface_type: str, c: float, L: float, N: float, p: float):
+def fitSurface(file_name: str, surface_type: str, c: float, L: float, N: float, p: float):
     ## For a helical tubule
     # Import the coordinates of the vertices
     vertices = pd.read_csv(file_name, header = None)
@@ -450,7 +450,7 @@ def main(file_name: str, surface_type: str, c: float, L: float, N: float, p: flo
     else:
         Warning(f"Unrecognized surface type. \n -> Choose 'T' for toroid, 'H' for helical tubule, or 'S' for snake. <-")
 
-if __name__ == "__main__":
+def main():
     # Specify the name of the file storing the coordinates of the vertices
     file_name = "(3,1,1,1)_coordinates.csv"
 
@@ -463,4 +463,8 @@ if __name__ == "__main__":
     p = -1 # Positive for right-handed, negative for left-handed
 
     # Call the main function
-    main(file_name, surface_type, T, L, N, p)
+    fitSurface(file_name, surface_type, T, L, N, p)
+
+if __name__ == "__main__":
+    main()
+    
